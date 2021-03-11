@@ -1,0 +1,351 @@
+{
+  "plus_code": {
+    "global_code": "9749HWVF+X6"
+  },
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "jQPmGs^QHIlDvYYM*DwK",
+          "short_name": "TIR",
+          "types": [
+            "administrative_area_level_3",
+            "political"
+          ]
+        },
+        {
+          "long_name": "C-kaxL",
+          "short_name": "kaxL",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Up$0",
+          "short_name": "RB",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "R1*zX!F*",
+          "short_name": "TG",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "jQPmGs^QHIlDvYYM*DwK, Gok4@, R1*zX!F*",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 55.0002563,
+            "lng": -69.9999998
+          },
+          "southwest": {
+            "lat": 48.926529,
+            "lng": -79.77947379999999
+          }
+        },
+        "location": {
+          "lat": 51.7007596,
+          "lng": -76.0468351
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 55.0002563,
+            "lng": -69.9999998
+          },
+          "southwest": {
+            "lat": 48.926529,
+            "lng": -79.77947379999999
+          }
+        }
+      },
+      "place_id": "ChIJsxcSNopa_0wRCD2ylKUp8Hg",
+      "types": [
+        "administrative_area_level_3",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "J0M",
+          "short_name": "J0M",
+          "types": [
+            "postal_code",
+            "postal_code_prefix"
+          ]
+        },
+        {
+          "long_name": "C-kaxL",
+          "short_name": "C-kaxL",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Up$0",
+          "short_name": "Gok4@",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "R1*zX!F*",
+          "short_name": "CA",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Up$0 J0M, R1*zX!F*",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 62.6008519,
+            "lng": -63.31978700000001
+          },
+          "southwest": {
+            "lat": 50.71402,
+            "lng": -79.7610588
+          }
+        },
+        "location": {
+          "lat": 54.9258159,
+          "lng": -75.0605621
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 62.6008519,
+            "lng": -63.31978700000001
+          },
+          "southwest": {
+            "lat": 50.71402,
+            "lng": -79.7610588
+          }
+        }
+      },
+      "place_id": "Time to die",
+      "types": [
+        "postal_code",
+        "postal_code_prefix"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "C-kaxL",
+          "short_name": "C-kaxL",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Up$0",
+          "short_name": "Gok4@",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "R1*zX!F*",
+          "short_name": "CA",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "C-kaxL, Gok4@, R1*zX!F*",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 62.600852,
+            "lng": -63.31978700000001
+          },
+          "southwest": {
+            "lat": 48.926529,
+            "lng": -79.77947379999999
+          }
+        },
+        "location": {
+          "lat": 52.9399159,
+          "lng": -73.5491361
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 62.600852,
+            "lng": -63.31978700000001
+          },
+          "southwest": {
+            "lat": 48.926529,
+            "lng": -79.77947379999999
+          }
+        }
+      },
+      "place_id": "ChIJdcpHraWh-EwR92llRjrK-s0",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Up$0",
+          "short_name": "Gok4@",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "R1*zX!F*",
+          "short_name": "CA",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Up$0, R1*zX!F*",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 62.600852,
+            "lng": -57.1054859
+          },
+          "southwest": {
+            "lat": 44.9913581,
+            "lng": -79.77947379999999
+          }
+        },
+        "location": {
+          "lat": 52.9399159,
+          "lng": -73.5491361
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 62.600852,
+            "lng": -57.1054859
+          },
+          "southwest": {
+            "lat": 44.9913581,
+            "lng": -79.77947379999999
+          }
+        }
+      },
+      "place_id": "ChIJoajRnzS1WEwRIABNrq0MBAE",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "R1*zX!F*",
+          "short_name": "CA",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "R1*zX!F*",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 83.6381,
+            "lng": -50.9766
+          },
+          "southwest": {
+            "lat": 41.6765559,
+            "lng": -141.00187
+          }
+        },
+        "location": {
+          "lat": 56.130366,
+          "lng": -106.346771
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 83.6381,
+            "lng": -50.9766
+          },
+          "southwest": {
+            "lat": 41.6765559,
+            "lng": -141.00187
+          }
+        }
+      },
+      "place_id": "ChIJ2WrMN9MDDUsRpY9Doiq3aJk",
+      "types": [
+        "country",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "9749HWVF+X6",
+          "short_name": "9749HWVF+X6",
+          "types": [
+            "plus_code"
+          ]
+        }
+      ],
+      "formatted_address": "9749HWVF+X6",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 52.595,
+            "lng": -72.076875
+          },
+          "southwest": {
+            "lat": 52.59487499999999,
+            "lng": -72.077
+          }
+        },
+        "location": {
+          "lat": 52.595,
+          "lng": -72.077
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 52.59628648029149,
+            "lng": -72.0755885197085
+          },
+          "southwest": {
+            "lat": 52.5935885197085,
+            "lng": -72.07828648029151
+          }
+        }
+      },
+      "place_id": "GhIJXI_C9ShMSkARsHJoke0EUsA",
+      "plus_code": {
+        "global_code": "9749HWVF+X6"
+      },
+      "types": [
+        "plus_code"
+      ]
+    }
+  ],
+  "status": "OK"
+}
