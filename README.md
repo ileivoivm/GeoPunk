@@ -1,11 +1,11 @@
 
 ![image](https://raw.githubusercontent.com/ileivoivm/GeoPunk/main/snap.png)
 
-###ig:https://www.instagram.com/ileivoivm/
+###ig:https://www.instagram.com/ileivoivm/###
 
-###twitter:https://twitter.com/IOivm
+###twitter:https://twitter.com/IOivm###
 
-#GeoPunk
+#GeoPunk#
 
 Mapping data with the real world. GeoPunk deconstructs the shape of geometric.
 Its shapes and colors can be manipulated by using the X/Y axis.
