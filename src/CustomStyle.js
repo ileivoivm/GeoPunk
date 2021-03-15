@@ -3,40 +3,14 @@ import Sketch from 'react-p5';
 import MersenneTwister from 'mersenne-twister';
 import Mappa from "mappa.js";
 import 'p5.easycam.js';
-//------------------------------------------- help
-{
-  /*
-  Create your Custom style to be turned into a EthBlock.art Mother NFT
-
-  Basic rules:
-   - use a minimum of 1 and a maximum of 4 "modifiers", modifiers are values between 0 and 1,
-   - use a minimum of 1 and a maximum of 3 colors, the color "background" will be set at the canvas root
-   - Use the block as source of entropy, no Math.random() allowed!
-   - You can use a "shuffle bag" using data from the block as seed, a MersenneTwister library is provided
-
-   Arguments:
-    - block: the blockData, in this example template you are given 3 different blocks to experiment with variations, check App.js to learn more
-    - mod[1-3]: template modifier arguments with arbitrary defaults to get your started
-    - color: template color argument with arbitrary default to get you started
-
-  Getting started:
-   - Write p5.js code, comsuming the block data and modifier arguments,
-     make it cool and use no random() internally, component must be pure, output deterministic
-   - Customize the list of arguments as you wish, given the rules listed below
-   - Provide a set of initial /default values for the implemented arguments, your preset.
-   - Think about easter eggs / rare attributes, display something different every 100 blocks? display something unique with 1% chance?
-
-   - check out p5.js documentation for examples!
-  */
-}
 //-------------------------------------------
 const key2 = 'AIzaSyB68yPc_unBU9fvPHyhfBqckW0EI38vqR4';
 const mappa = new Mappa('Google', key2);
 let jsonAddress,jsonData;
-let img;
+let img,img2,back,back2;
 let rx = 160,ry = 160,slitCount = 0,mapId=2,myMap ;
 let pg,displace,mosaic,source,mapDefult,jsonDefult;
-let radlng,radlat,radPlace,inconsolata;
+let radlng,radlat,radPlace,inconsolata,sobel;
 let rr=0,gg=0,bb=0;
 let t0={'name':'United States','lat':38.933,'lng':-109.699};
 let t1={'name':'Taiwan','lat':23.95,'lng':120.68};
@@ -54,7 +28,7 @@ let fontsize=20,fontPosY=50;
 let fontsize2=20,fontPosY2=50;
 var obj=[],objs;
 let checkDot=[2000];
-let checkCount=0,runAngle=0,dis=120,radHash=0;
+let checkCount=0,dis=120,radHash=0;
 //-------------------------------------------
 var frameCountPerCicle = 200;
 var CFrameCount;
@@ -81,9 +55,10 @@ const CustomStyle = ({
     inconsolata = p5.loadFont('HindGuntur-Light.ttf');
     displace = p5.loadShader('shader/displace.vert', 'shader/displace.frag');
     mosaic = p5.loadShader('shader/mosaic.vert', 'shader/mosaic.frag');
+    sobel=p5.loadShader('shader/sobel.vert', 'shader/sobel.frag');
     land[0]=p5.loadModel('model/cone3.obj');
     land[1]=p5.loadModel('model/cube3.obj');
-    land[2]=p5.loadModel('model/cross3.obj');
+    land[2]=p5.loadModel('model/cross2.obj');
     land[3]=p5.loadModel('model/quad.obj');
     landImg[0]=p5.loadImage("model/cone3.png");
     landImg[1]=p5.loadImage("model/cube3.png");
@@ -97,13 +72,15 @@ const CustomStyle = ({
     // console.log(seed);
     shuffleBag.current = new MersenneTwister(seed);
     // console.log(objs);
+    let newRad=p5.int(p5.random(1,20));
+    for(let i=0;i<newRad;i++){
+      let temp=shuffleBag.current.random();
+    }
     radPlace=parseInt(shuffleBag.current.random()*6);
     radlat  =p5.nf(place[radPlace].lat + shuffleBag.current.random()*0.08-0.04,2,3);
     radlng  =p5.nf(place[radPlace].lng + shuffleBag.current.random()*0.08-0.04,2,3);
-    // mapId   = 3;
+    // mapId   = 2;
     mapId   = parseInt(shuffleBag.current.random()*4);
-    dis = parseInt(shuffleBag.current.random()*240)+60;
-
     objs = block.transactions.map((t) => {
       let seed = parseInt(t.hash.slice(0, 16), 16);
       let invert=shuffleBag.current.random();
@@ -145,9 +122,6 @@ const CustomStyle = ({
     function getRequestImg(url)  { p5.httpDo(url, "GET", false, responseImg,  noresponseImg);}
     getRequestImg(myMap.imgUrl);
     //---------------------------
-    source = p5.createGraphics(640, 640);
-    pg = p5.createGraphics(640, 640);
-    //-------------------------------------------
   }
   //-------------------------------------------
   const setup = (p5, canvasParentRef) => {
@@ -156,13 +130,20 @@ const CustomStyle = ({
     p5.pixelDensity(2);
     canvasRef.current = p5;
     //-------------------------------------------
+    source = p5.createGraphics(640, 640);
+    pg = p5.createGraphics(640, 640);
+    img2 = p5.createGraphics(640, 640);
+
+    //-------------------------------------------
+    img2.background(0);
+    img2.image(img,0,0,660,660);
     p5.easycam = p5.createEasyCam({distance:dis,center: [0,5,0] });
     p5.easycam.setDistanceMin(60);
     p5.easycam.setDistanceMax(300);
     p5.noStroke();
     p5.textureWrap(p5.CLAMP);
     source.image(img, 0, 0);
-    p5.textSize(0.15);
+    p5.textSize(0.10);
     p5.textAlign(p5.LEFT, p5.CENTER);
     p5.textFont(inconsolata);
     //-------------------------------------------
@@ -203,14 +184,16 @@ const CustomStyle = ({
     //-------------------------------------------mainShape
     {
       p5.background(background);
+      p5.blendMode(p5.BLEND);
       p5.noStroke();
-      p5.textSize(0.15);
+      p5.textSize(0.10);
       p5.perspective(60 * p5.PI/180, width/height, 0.1, 5000);
       // p5.normalMaterial();
-      let back=p5.abs(((p5.millis()%6000) / 6000)-0.5)-0.5;
+      back=p5.abs(((p5.millis()%6000) / 6000)-0.5)-0.5;
+      back2=p5.millis() / 3000;
       p5.rotateZ(back);
       p5.rotateX(back);
-      p5.rotateY(p5.millis() / 3000);
+      p5.rotateY(back2);
       p5.shader(displace);
       displace.setUniform("colormap", pg);
       displace.setUniform("mapId", mapId);
@@ -239,29 +222,32 @@ const CustomStyle = ({
       p5.model(land[mapId]);
       p5.resetShader();
 
+      //-----------------------------draw box
       p5.push();
-      p5.noFill();
-      p5.stroke(255,10);
-      if(mapId==0){
-        p5.translate(0,0.5,0);
-        p5.scale(0.8,0.2,0.8);
+      {
+        p5.noFill();
+        p5.stroke(100,10);
+        if(mapId==0){
+          p5.translate(0,0.5,0);
+          p5.scale(0.8,0.2,0.8);
+        }
+        else if(mapId==1){
+          p5.translate(0,0.1,0);
+          p5.scale(0.9,0.25,0.9);
+        }
+        else if(mapId==2){
+          p5.scale(1,0.2,1);
+        }
+        else if(mapId==3){
+          p5.translate(0,0.4,0);
+          p5.scale(1,0.2,1);
+        }
+        p5.box(8);
       }
-      if(mapId==1){
-        p5.translate(0,0.1,0);
-        p5.scale(0.9,0.25,0.9);
-      }
-      if(mapId==2){
-        p5.scale(1,0.2,1);
-      }
-      if(mapId==3){
-        p5.translate(0,0.4,0);
-        p5.scale(1,0.2,1);
-      }
-      p5.box(8);
       p5.pop();
 
+      //-----------------------------draw transaction
       p5.noFill();
-
       for(let i=0;i<objs.length;i++){
         p5.push();
         p5.translate(0,objs[i].z,0);
@@ -276,107 +262,132 @@ const CustomStyle = ({
         p5.ellipse(0,0,objs[i].radius,objs[i].radius,20);
         p5.pop();
       }
+      //-----------------------------
+
 
     }
     //-------------------------------------------otherLine
     {
-    p5.resetShader();
-    p5.push();
-    p5.fill(255);
-    p5.translate(0,3,0);
-    p5.sphere(0.05,20,20);
-    p5.translate(0,-6,0);
-    p5.sphere(0.05,20,20);
-    p5.pop();
+      p5.resetShader();
+      p5.push();
+      p5.fill(255);
+      p5.translate(0,3,0);
+      p5.sphere(0.05,20,20);
+      p5.translate(0,-6,0);
+      p5.sphere(0.05,20,20);
+      p5.pop();
 
 
-    p5.push();
-    p5.fill(255);
-    p5.rotateY(p5.millis() / 2300);
-    p5.translate(2,-2,0);
-    // texture(img);
-    p5.shader(mosaic);
-    mosaic.setUniform("colormap", img);
-    mosaic.setUniform("color1", [rr,gg,bb]);
-    p5.stroke(255);
-    p5.strokeWeight(0.2);
-    p5.rect(0,0,1,0.7);
-    p5.strokeWeight(2);
-    for(let i=0;i<20;i++){
-      let e = p5.lerp(0.35, 1.6, i/20);
-      p5.point(-0.6,e,0);
-    }
-    for(let i=0;i<5;i++){
-      let e = p5.lerp(-0.2, -0.6, i/5);
-      p5.point(e,0.35,0);
-    }
 
-    p5.resetShader();
-    p5.noFill();
-    p5.stroke(255);
-    p5.strokeWeight(1);
-    p5.rect(0,0,1,0.70);
-    p5.strokeWeight(4);
-    p5.point(-0.6,1.6,0);
-    p5.point(-0.2,0.35,0);
-    p5.pop();
+      p5.resetShader();
+      p5.push();
+      p5.fill(255);
+      p5.rotateY(p5.millis() / 2300);
+      p5.translate(2,-2,0);
+      p5.shader(mosaic);
+      mosaic.setUniform("colormap", img);
+      mosaic.setUniform("color1", [rr,gg,bb]);
+      p5.stroke(255);
+      p5.strokeWeight(0.2);
+      p5.rect(0,0,1,0.7);
+      p5.strokeWeight(2);
+      for(let i=0;i<20;i++){
+        let e = p5.lerp(0.35, 1.6, i/20);
+        p5.point(-0.6,e,0);
+      }
+      for(let i=0;i<5;i++){
+        let e = p5.lerp(-0.2, -0.6, i/5);
+        p5.point(e,0.35,0);
+      }
 
-    p5.push();
-    p5.fill(255);
-    p5.rotateY(p5.millis() / 1100);
-    p5.translate(2.5,-2.5,0);
-    p5.stroke(255);
-    p5.strokeWeight(0.2);
-    p5.strokeWeight(2);
-    for(let i=0;i<20;i++){
-      let e = p5.lerp(0.35, 2.2, i/20);
-      p5.point(-0.6,e,0);
-    }
-    for(let i=0;i<5;i++){
-      let e = p5.lerp(-0.3, -0.6, i/5);
-      p5.point(e,0.35,0);
-    }
-    p5.strokeWeight(4);
-    p5.point(-0.6,2.2,0);
-    p5.point(-0.3,0.35,0);
-    p5.fill(255);
-    p5.text('LAT:'+radlat, 0, 0);
-    p5.text('LNG:'+radlng, 0, 0.2);
-    p5.pop();
+
+      p5.resetShader();
+      p5.noFill();
+      p5.stroke(255);
+      p5.strokeWeight(2);
+      p5.rect(0,0,1,0.70);
+      p5.strokeWeight(4);
+      p5.point(-0.6,1.6,0);
+      p5.point(-0.2,0.35,0);
+      p5.pop();
+
+      p5.push();
+      p5.fill(255);
+      p5.rotateY(p5.millis() / 1100);
+      p5.translate(2.5,-2.5,0);
+      p5.stroke(255);
+      p5.strokeWeight(0.2);
+      p5.strokeWeight(2);
+      for(let i=0;i<20;i++){
+        let e = p5.lerp(0.35, 2.2, i/20);
+        p5.point(-0.6,e,0);
+      }
+      for(let i=0;i<5;i++){
+        let e = p5.lerp(-0.3, -0.6, i/5);
+        p5.point(e,0.35,0);
+      }
+      p5.strokeWeight(4);
+      p5.point(-0.6,2.2,0);
+      p5.point(-0.3,0.35,0);
+      p5.fill(255);
+      p5.text('LAT:'+radlat, -0.2, 0.2);
+      p5.text('LNG:'+radlng, -0.2, 0.4);
+      p5.pop();
     }
     //-------------------------------------------drawHud
     {
       let cameraZoom=p5.easycam.getDistance();
       let gridDist=p5.int(p5.map(cameraZoom,60,300,15,6));
       // console.log(cameraZoom);
+      //-------------------------------------------
+
+      //-------------------------------------------
       p5.easycam.beginHUD();
-      p5.fill(100,100)
-      // text(place[radPlace].name,20,60);
-      p5.strokeWeight(1.0);
-      for (var i = 0; i < width; i += gridDist*10) {
-        p5.stroke(100,50);
-        p5.line(i, 0, i, height);
-        p5.line(width, i, 0, i);
+      p5.push();
+      {
+        p5.resetShader();
+        p5.blendMode(p5.SCREEN);
+        sobel.setUniform("resolution", [640.0,640.0]);
+        sobel.setUniform("colormap", img2);
+        if(p5.frameCount%10==0)sobel.setUniform("pos", [Math.random()*2.0-1.0,Math.random()*2.0-1.0]);
+        // sobel.setUniform("vol",vol );
+        sobel.setUniform("time", p5.float(p5.frameCount%100000)/1000.0);
+        p5.shader(sobel);
+        p5.fill(100,100);
+        p5.rect(0,0,width,height);
       }
-      checkCount=0;
-      if(p5.frameCount%60===0){
+      p5.pop();
+      //-----------------
+      p5.resetShader();
+      {
+        p5.fill(100,100)
+        // text(place[radPlace].name,20,60);
+        p5.strokeWeight(1.0);
+        for (var i = 0; i < width; i += gridDist*10) {
+          p5.stroke(80,50);
+          p5.line(i, 0, i, height);
+          p5.line(width, i, 0, i);
+        }
+        checkCount=0;
+        if(p5.frameCount%30===0){
+          for (let i = 0; i < width; i += gridDist*10) {
+            for (let j = 0; j < height; j += gridDist*10) {
+              let k=p5.random(10);
+              if(k>5)checkDot[checkCount]=false;
+              else checkDot[checkCount]=true;
+              if(checkDot[checkCount])p5.point(i,j);
+              checkCount++;
+            }
+          }
+        }
+        checkCount=0;
+        p5.strokeWeight(3.0);
+        p5.stroke(150,100)
         for (let i = 0; i < width; i += gridDist*10) {
           for (let j = 0; j < height; j += gridDist*10) {
-            let k=p5.random(10);
-            if(k>5)checkDot[checkCount]=false;
-            else checkDot[checkCount]=true;
             if(checkDot[checkCount])p5.point(i,j);
             checkCount++;
           }
-        }
-      }
-      checkCount=0;
-      p5.strokeWeight(3.0);
-      p5.stroke(100,100)
-      for (let i = 0; i < width; i += gridDist*10) {
-        for (let j = 0; j < height; j += gridDist*10) {
-          if(checkDot[checkCount])p5.point(i,j);
-          checkCount++;
         }
       }
       //-----------------
@@ -389,19 +400,21 @@ const CustomStyle = ({
 
         if (p5.frameCount%5===0) {
           fontPosY2=p5.random(-100,100)+height/2;
-          fontsize2=p5.random(5, 15);
+          fontsize2=p5.random(10, 20);
         }
-        p5.fill(250,p5.random(20,40));
+        p5.blendMode(p5.BLEND);
+        p5.fill(250,p5.random(150,200));
         p5.textSize(fontsize);
         if (messages3!=null)p5.text(messages3[readid].long_name, 10, fontPosY);
 
         p5.textSize(fontsize2);
-        p5.fill(250,40);
+        p5.fill(200,60);
         if (formatted_address!=null)p5.text(formatted_address, 10, fontPosY2);
         //-----------------
         p5.textAlign(p5.CENTER,p5.CENTER);
         p5.textSize(14);
-        p5.fill(250,30);
+        p5.fill(150,60);
+
       if(checkJson){
 
         if(objs==null)p5.text(hash, width/2,height-height*0.05);
@@ -417,8 +430,7 @@ const CustomStyle = ({
     }
     //-------------------------------------------slitscan
     {
-
-      // pg.background(Math.random()*255);
+      //-----
       if (slitCount < 640) {
         rx = rx + parseInt(shuffleBag.current.random()*10-5);
         ry = ry + parseInt(shuffleBag.current.random()*4-2);
@@ -466,10 +478,10 @@ const styleMetadata = {
   image: '',
   creator_name: '',
   options: {
-    mod1: 0.0,
-    mod2: 0.0,
-    color1: 'rgb(70,70,70)',
-    background: 'rgb(30,30,30)',
+    mod1: 0.15,
+    mod2: 0.7,
+    color1: "hsl("+parseInt(Math.random()*360)+",90%,10%)",
+    background: "hsl("+parseInt(Math.random()*360)+",80%,10%)"
   },
 };
 function updateCProgress(p5) {
@@ -479,43 +491,5 @@ function updateCProgress(p5) {
   CQuadEaseOutR = -p5.sq(CProgressR - 1) + 1;
   CQuartEaseInR = p5.pow(CProgressR, 4);
   CQuartEaseOutR = -p5.pow(CProgressR - 1, 4) + 1;
-}
-function drawFrame(p5,width,height){
-  p5.fill(255);
-  p5.noStroke();
-  p5.rect(0,0,width,height*0.05);
-  p5.rect(0,height-height*0.15,width,height*0.15);
-  p5.rect(0,0,width*0.05,height);
-  p5.rect(width-width*0.05,0,width,height);
-
-  p5.noFill();
-  p5.stroke(50);
-  p5.strokeWeight(1);
-  p5.rect(0,0,width,height);
-  //---------------------------------------------
-  let diameter = width*0.15 * CQuartEaseOutR;
-  let brush=2 * (1 - CQuartEaseOutR);
-  p5.push();
-  p5.strokeWeight(brush);
-  p5.stroke(180);
-  p5.translate(width/2,height-width*0.15);
-  p5.ellipse(0,0,diameter,diameter,40);
-  p5.pop();
-  //-------------------------------------
-  if(CFrameCount==0)runAngle=p5.random(6.28);
-  p5.stroke(50);
-  p5.translate(width/2,height-width*0.15);
-  p5.strokeWeight(3.0);
-  p5.point(0,0);
-  // p5.line(-width*0.055,0,width*0.055,0);
-  p5.strokeWeight(1.4);
-  p5.ellipse(0,0,width*0.15,width*0.15,40);
-  p5.strokeWeight(0.8);
-  // p5.ellipse(0,0,width*0.15,width*0.08,40);
-  p5.arc(0, 0, width*0.08, width*0.15, (runAngle+0.74)%6.28*CQuartEaseOutR, (runAngle+5.8)%6.28*CQuartEaseOutR);
-  // p5.noStroke();
-  p5.fill(100,50);
-  p5.arc(0, 0, width*0.08, width*0.15,(runAngle+5.8)%6.28*CQuartEaseOutR,(runAngle+0.74)%6.28*CQuartEaseOutR,p5.PIE);
-
 }
 export { styleMetadata };

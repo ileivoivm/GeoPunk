@@ -46,5 +46,9 @@ void main(void) {
     if (p.y<0.0 && vTexCoord.x>0.2 && vTexCoord.x<0.999 )newVertexPos.y=newVertexPos.y-df;
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
+  }else if (mapId==3) {
+    if (p.y<0.0)newVertexPos.y=newVertexPos.y-df;
+    else newVertexPos.y=newVertexPos.y;
+    gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }
 }
