@@ -72,10 +72,7 @@ const CustomStyle = ({
     // console.log(seed);
     shuffleBag.current = new MersenneTwister(seed);
     // console.log(objs);
-    let newRad=p5.int(p5.random(1,20));
-    for(let i=0;i<newRad;i++){
-      let temp=shuffleBag.current.random();
-    }
+  
     radPlace=parseInt(shuffleBag.current.random()*6);
     radlat  =p5.nf(place[radPlace].lat + shuffleBag.current.random()*0.08-0.04,2,3);
     radlng  =p5.nf(place[radPlace].lng + shuffleBag.current.random()*0.08-0.04,2,3);
@@ -255,9 +252,11 @@ const CustomStyle = ({
         if(i==radHash){
           p5.stroke(255,0,0,150);
           p5.strokeWeight(2.0);
+          p5.scale(2.0);
         }else{
           p5.stroke(200,100);
           p5.strokeWeight(0.5);
+          p5.scale(1.0);
         }
         p5.ellipse(0,0,objs[i].radius,objs[i].radius,20);
         p5.pop();
