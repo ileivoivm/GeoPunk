@@ -16,6 +16,7 @@ let land=[],landImg=[];
 let jsonFile,img,pg,img2,objs,radHash;
 let checkDot=[2000],checkCount=0,title,subtitle;
 let fontPosY,fontsize,readid,fontPosY2,fontsize2;
+let timeLine=0,tempHash;
 //-------------------------------------------
 const CustomStyle = ({
   block,
@@ -83,7 +84,17 @@ const CustomStyle = ({
     let HEIGHT = height;
     let DIM = Math.min(WIDTH, HEIGHT);
     let M = DIM / DEFAULT_SIZE;
-    updateCProgress(p5);
+    // console.log(block);
+    if (p5.frameCount == 10) {
+      tempHash = block;
+    } else {
+      timeLine=timeLine+1;
+      if(tempHash!=block){
+        tempHash = block;
+        timeLine=0;
+      }
+      console.log(timeLine);
+    }
     //-------------------------------------------mainShape
     p5.background(background);
     p5.blendMode(p5.BLEND);
@@ -97,10 +108,10 @@ const CustomStyle = ({
     p5.rotateY(back2);
     //------------------------------------------- reset shuffle bag
     {
-      if(p5.frameCount<30){
+      if(timeLine<30){
         // p5.normalMaterial();
         // p5.sphere(10,30,30);
-      } else if(p5.frameCount==30){//loading .png file
+      } else if(timeLine==30){//loading .png file
         let seed = parseInt(hash.slice(0, 16), 16);
         shuffleBag.current = new MersenneTwister(seed);
         mapId   = parseInt(shuffleBag.current.random()*4);
@@ -122,7 +133,7 @@ const CustomStyle = ({
             radius: seed / 500000000000000000,
           };
         });
-      }else if(p5.frameCount>30){
+      }else if(timeLine>30){
         pg.background(0);
         if(img != null)pg.image(img,0,0,640,640);
         pg.image(landImg[mapId],0,0,640,640);
@@ -294,7 +305,7 @@ const CustomStyle = ({
               p5.line(width, i, 0, i);
             }
             checkCount=0;
-            if(p5.frameCount%30===0){
+            if(timeLine%30===0){
               for (let i = 0; i < width; i += gridDist*10) {
                 for (let j = 0; j < height; j += gridDist*10) {
                   let k=p5.random(10);
@@ -316,7 +327,7 @@ const CustomStyle = ({
             }
           }
           //-----------------
-            if (p5.frameCount%20===0) {
+            if (timeLine%20===0) {
               fontPosY=p5.random(-100,100)+height/2;
               fontsize=p5.random(20, 40);
               readid=p5.int(p5.random(4));
@@ -326,7 +337,7 @@ const CustomStyle = ({
               else title=jsonFile[landId].longnameD;
             }
 
-            if (p5.frameCount%5===0) {
+            if (timeLine%5===0) {
               fontPosY2=p5.random(-100,100)+height/2;
               fontsize2=p5.random(10, 20);
             }
@@ -348,7 +359,7 @@ const CustomStyle = ({
 
           if(objs==null)p5.text(hash, width/2,height-height*0.05);
           else {
-            if(p5.frameCount%30==0)radHash=p5.int(p5.random(objs.length));
+            if(timeLine%30==0)radHash=p5.int(p5.random(objs.length));
             if(objs[radHash]!=null){
               // console.log(objs[radHash]);
               p5.text(objs[radHash].name, width/2,height-height*0.05);
@@ -383,14 +394,4 @@ const styleMetadata = {
     background :"hsl("+parseInt(Math.random()*360)+",80%,10%)"
   },
 };
-
-function updateCProgress(p5) {
-  CFrameCount = p5.frameCount % frameCountPerCicle;
-  CProgressR = CFrameCount / frameCountPerCicle;
-  CQuadEaseInR = CProgressR * CProgressR;
-  CQuadEaseOutR = -p5.sq(CProgressR - 1) + 1;
-  CQuartEaseInR = p5.pow(CProgressR, 4);
-  CQuartEaseOutR = -p5.pow(CProgressR - 1, 4) + 1;
-}
-
 export { styleMetadata };
