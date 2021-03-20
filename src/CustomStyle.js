@@ -277,6 +277,7 @@ const CustomStyle = ({
           let gridDist=p5.int(p5.map(cameraZoom,60,300,15,6));
           //-------------------------------------------
           p5.easycam.beginHUD();
+          //-------------------------------------------
           p5.push();
           {
             p5.resetShader();
@@ -293,7 +294,18 @@ const CustomStyle = ({
 
           }
           p5.pop();
-          //-----------------
+          //-------------------------------------------
+          p5.resetShader();
+          p5.push();
+          {
+
+            p5.image(img2,0,0,width,height);
+
+          }
+          p5.pop();
+          //-------------------------------------------
+
+
           p5.resetShader();
           {
             p5.fill(100,100)
