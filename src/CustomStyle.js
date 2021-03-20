@@ -16,7 +16,7 @@ let land=[],landImg=[];
 let jsonFile,img,pg,img2,objs,radHash;
 let checkDot=[2000],checkCount=0,title,subtitle;
 let fontPosY,fontsize,readid,fontPosY2,fontsize2;
-let timeLine=0,tempHash;
+let timeLine=0,tempHash,radX=[],radY=[],imgGet=[],imgGray=[],imgNum;
 //-------------------------------------------
 const CustomStyle = ({
   block,
@@ -93,7 +93,7 @@ const CustomStyle = ({
         tempHash = block;
         timeLine=0;
       }
-      console.log(timeLine);
+      // console.log(timeLine);
     }
     //-------------------------------------------mainShape
     p5.background(background);
@@ -274,7 +274,7 @@ const CustomStyle = ({
         //-------------------------------------------drawHud
         {
           let cameraZoom=p5.easycam.getDistance();
-          let gridDist=p5.int(p5.map(cameraZoom,60,300,15,6));
+          let gridDist=p5.int(p5.map(cameraZoom,60,300,18,6));
           //-------------------------------------------
           p5.easycam.beginHUD();
           //-------------------------------------------
@@ -298,8 +298,32 @@ const CustomStyle = ({
           p5.resetShader();
           p5.push();
           {
+            p5.blendMode(p5.DIFFERENCE);
+            // p5.image(img,0,0,width,height);
+            let gridSize=(gridDist*10);
+            // console.log(gridDist);
+            if(timeLine%20===0){
+              imgNum =p5.int (p5.random(3));
+              radX=[];
+              radY=[];
+              imgGet=[];
+              imgGray=[];
+              for(let i=0;i<imgNum;i++){
+                let tempX=p5.int(p5.random(width/gridSize));
+                let tempY=p5.int(p5.random(height/gridSize));
+                let tempIMG=img.get(tempX*gridSize,tempY*gridSize,gridSize,gridSize);
+                let tempGray=p5.int(p5.random(10,200));
+                radX.push(tempX);
+                radY.push(tempY);
+                imgGet.push(tempIMG);
+                imgGray.push(tempGray);
+              }
+            }
 
-            p5.image(img2,0,0,width,height);
+            for(let i=0;i<imgNum;i++)if(imgGet[i]!=null){
+              p5.tint(imgGray[i],10);
+              p5.image(imgGet[i],radX[i]*gridSize,radY[i]*gridSize,gridSize,gridSize);
+            }
 
           }
           p5.pop();
@@ -311,6 +335,7 @@ const CustomStyle = ({
             p5.fill(100,100)
             // text(place[radPlace].name,20,60);
             p5.strokeWeight(1.0);
+
             for (var i = 0; i < width; i += gridDist*10) {
               p5.stroke(80,50);
               p5.line(i, 0, i, height);
