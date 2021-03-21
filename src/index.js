@@ -15,7 +15,7 @@ const store = proxy({
   As a creative coder, you can ignore this file, check CustomStyle.js
 */
 function App() {
-  const [blockNumber, setBlockNumber] = useState(0);
+  const [blockNumber, setBlockNumber] = useState(1);
   const snap = useProxy(store);
   const canvasRef = useRef();
   const attributesRef = useRef();

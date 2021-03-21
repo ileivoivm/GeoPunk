@@ -14,6 +14,7 @@ uniform sampler2D uNoiseTexture;
 varying float time;
 varying vec2 vTexCoord;
 varying vec3 vNoise;
+varying vec3 vNormal;
 
 float rand(vec3 co) {
   return fract(sin(dot(co.xyz, vec3(12.9898, 73.233, 2.3456))) * uFrameCount);
@@ -55,5 +56,12 @@ void main(void) {
     else if(p.y<-0.095) newVertexPos.y=newVertexPos.y+df;
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
+  }else if (mapId==5) {
+    vec4 positionVec4 = vec4(aPosition, 1.0);
+    vec4 newVertexPos = vec4(aNormal * df, 0.0) + positionVec4;
+    vNormal = aNormal;
+
+    if ((p.y>-1.05 && p.y<1.05) ||((p.y<-1.5 || p.y>1.5)&& vTexCoord.x<0.8))  gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos;
+    else gl_Position = uProjectionMatrix * uModelViewMatrix * positionVec4   ;
   }
 }

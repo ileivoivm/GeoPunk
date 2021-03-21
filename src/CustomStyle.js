@@ -48,11 +48,13 @@ const CustomStyle = ({
     land[2]=p5.loadModel('model/cross2.obj');
     land[3]=p5.loadModel('model/quad.obj');
     land[4]=p5.loadModel('model/disk3.obj');
+    land[5]=p5.loadModel('model/sphere3.obj');
     landImg[0]=p5.loadImage("model/cone3.png");
     landImg[1]=p5.loadImage("model/cube3.png");
     landImg[2]=p5.loadImage("model/cross3.png");
     landImg[3]=p5.loadImage("model/quad4.png");
     landImg[4]=p5.loadImage("model/disk3.png");
+    landImg[5]=p5.loadImage("model/sphere3.png");
     jsonFile=p5.loadJSON("GeoPunk.json");
     pg = p5.createGraphics(640, 640);
     //-------------------------------------------setting
@@ -115,17 +117,10 @@ const CustomStyle = ({
       } else if(timeLine==30){//loading .png file
         let seed = parseInt(hash.slice(0, 16), 16);
         shuffleBag.current = new MersenneTwister(seed);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        // mapId   = 4;
+        mapId   = parseInt(shuffleBag.current.random()*6);
+        mapId   = parseInt(shuffleBag.current.random()*6);
+        mapId   = parseInt(shuffleBag.current.random()*6);
+        // mapId=5;
         landId  = parseInt(shuffleBag.current.random()*160);
 
         img =p5.loadImage("slitMap/"+landId+".png");
@@ -177,7 +172,7 @@ const CustomStyle = ({
         {
           p5.push();
           p5.noFill();
-          p5.stroke(100,10);
+          p5.stroke(200,40);
           if(mapId==0){
             p5.translate(0,0.5,0);
             p5.scale(0.8,0.2,0.8);
@@ -193,7 +188,8 @@ const CustomStyle = ({
             p5.translate(0,0.4,0);
             p5.scale(1,0.2,1);
           }
-          p5.box(8);
+          if(mapId==5)p5.box(4);
+          // else p5.box(8);
           p5.pop();
         }
         //-------------------------------------------draw transaction
@@ -232,6 +228,7 @@ const CustomStyle = ({
           p5.fill(255);
           p5.rotateY(p5.millis() / 2300);
           p5.translate(2,-2,0);
+          if(mapId==5)p5.translate(0.3,-0.7,0);
           p5.shader(mosaic);
           mosaic.setUniform("colormap", img);
           mosaic.setUniform("color1", [p5.red(color1)/510,p5.green(color1)/510,p5.blue(color1)/510]);
@@ -262,6 +259,7 @@ const CustomStyle = ({
           p5.fill(255);
           p5.rotateY(p5.millis() / 1100);
           p5.translate(2.5,-2.5,0);
+          if(mapId==5)p5.translate(-0.8,-0.5,0);
           p5.stroke(255);
           p5.strokeWeight(0.2);
           p5.strokeWeight(2);

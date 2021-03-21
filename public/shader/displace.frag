@@ -8,6 +8,8 @@ varying vec3 vNoise;
 varying float time;
 uniform float mod2;
 uniform vec3  color1;
+varying vec3 vNormal;
+
 mat3 YUVFromRGB = mat3(
   vec3(0.299, -0.14713, 0.615),
   vec3(0.587, -0.28886, -0.51499),
