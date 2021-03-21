@@ -50,5 +50,10 @@ void main(void) {
     if (p.y<0.0)newVertexPos.y=newVertexPos.y-df;
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
+  }else if (mapId==4) {
+    if (p.y>0.095)newVertexPos.y=newVertexPos.y-df;
+    else if(p.y<-0.095) newVertexPos.y=newVertexPos.y+df;
+    else newVertexPos.y=newVertexPos.y;
+    gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }
 }

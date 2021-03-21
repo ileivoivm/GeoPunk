@@ -10,7 +10,7 @@ let frameCountPerCicle = 200;
 let CFrameCount,CQuartEaseInR,CQuartEaseOutR;
 let CProgressR,CQuadEaseInR,CQuadEaseOutR;
 let back,back2,dis=120,mapId,landId;
-let inconsolata,mapDefult;
+let inconsolata;
 let displace,mosaic,sobel;
 let land=[],landImg=[];
 let jsonFile,img,pg,img2,objs,radHash;
@@ -47,11 +47,12 @@ const CustomStyle = ({
     land[1]=p5.loadModel('model/cube3.obj');
     land[2]=p5.loadModel('model/cross2.obj');
     land[3]=p5.loadModel('model/quad.obj');
+    land[4]=p5.loadModel('model/disk3.obj');
     landImg[0]=p5.loadImage("model/cone3.png");
     landImg[1]=p5.loadImage("model/cube3.png");
     landImg[2]=p5.loadImage("model/cross3.png");
     landImg[3]=p5.loadImage("model/quad4.png");
-    mapDefult=p5.loadImage("model/map.png");
+    landImg[4]=p5.loadImage("model/disk3.png");
     jsonFile=p5.loadJSON("GeoPunk.json");
     pg = p5.createGraphics(640, 640);
     //-------------------------------------------setting
@@ -114,9 +115,19 @@ const CustomStyle = ({
       } else if(timeLine==30){//loading .png file
         let seed = parseInt(hash.slice(0, 16), 16);
         shuffleBag.current = new MersenneTwister(seed);
-        mapId   = parseInt(shuffleBag.current.random()*4);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        mapId   = parseInt(shuffleBag.current.random()*5);
+        // mapId   = 4;
         landId  = parseInt(shuffleBag.current.random()*160);
-        console.log(jsonFile[landId]);
+
         img =p5.loadImage("slitMap/"+landId+".png");
         img2=p5.loadImage("sobel/p_"+landId+".png");
         hoistedValue.current = 42;
@@ -290,7 +301,6 @@ const CustomStyle = ({
             p5.shader(sobel);
             p5.fill(100,100);
             p5.rect(0,0,width,height);
-            // p5.image(img2,0,0,width,height);
 
           }
           p5.pop();
@@ -298,7 +308,8 @@ const CustomStyle = ({
           p5.resetShader();
           p5.push();
           {
-            p5.blendMode(p5.DIFFERENCE);
+            // p5.image(pg,0,0,width,height);
+            p5.blendMode(p5.SCREEN);
             // p5.image(img,0,0,width,height);
             let gridSize=(gridDist*10);
             // console.log(gridDist);
@@ -312,7 +323,7 @@ const CustomStyle = ({
                 let tempX=p5.int(p5.random(width/gridSize));
                 let tempY=p5.int(p5.random(height/gridSize));
                 let tempIMG=img.get(tempX*gridSize,tempY*gridSize,gridSize,gridSize);
-                let tempGray=p5.int(p5.random(10,200));
+                let tempGray=p5.int(p5.random(50,200));
                 radX.push(tempX);
                 radY.push(tempY);
                 imgGet.push(tempIMG);
@@ -321,7 +332,7 @@ const CustomStyle = ({
             }
 
             for(let i=0;i<imgNum;i++)if(imgGet[i]!=null){
-              p5.tint(imgGray[i],10);
+              p5.tint(imgGray[i],100);
               p5.image(imgGet[i],radX[i]*gridSize,radY[i]*gridSize,gridSize,gridSize);
             }
 
@@ -371,7 +382,7 @@ const CustomStyle = ({
               if(readid==0)title=jsonFile[landId].longnameA;
               else if(readid==1)title=jsonFile[landId].longnameB;
               else if(readid==2)title=jsonFile[landId].longnameC;
-              else title=jsonFile[landId].longnameD;
+              // else title=jsonFile[landId].longnameD;
             }
 
             if (timeLine%5===0) {
