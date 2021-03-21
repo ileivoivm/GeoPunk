@@ -32,7 +32,6 @@ void main(void) {
   vec4 p = vec4(aPosition, 1.0);
   vec4 newVertexPos = positionVec4;
 
-  //
 
   if (mapId==0) {
     if (p.y<0.0 && vTexCoord.x>0.001 && vTexCoord.x<0.999 )newVertexPos.y=newVertexPos.y-df+0.2;
@@ -44,7 +43,7 @@ void main(void) {
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }
   else if (mapId==2) {
-    if (p.y<0.0 && vTexCoord.x>0.2 && vTexCoord.x<0.999 )newVertexPos.y=newVertexPos.y-df;
+    if (p.y<0.0 )newVertexPos.y=newVertexPos.y-(df*0.2);
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }else if (mapId==3) {

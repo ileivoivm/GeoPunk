@@ -117,9 +117,7 @@ const CustomStyle = ({
       } else if(timeLine==30){//loading .png file
         let seed = parseInt(hash.slice(0, 16), 16);
         shuffleBag.current = new MersenneTwister(seed);
-        mapId   = parseInt(shuffleBag.current.random()*6);
-        mapId   = parseInt(shuffleBag.current.random()*6);
-        mapId   = parseInt(shuffleBag.current.random()*6);
+        mapId   = parseInt(shuffleBag.current.random()*5);
         // mapId=5;
         landId  = parseInt(shuffleBag.current.random()*160);
 
