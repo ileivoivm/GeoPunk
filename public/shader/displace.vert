@@ -25,25 +25,25 @@ void main(void) {
   time = uFrameCount;
   // vec4 color = texture2D(colormap, vTexCoord);
   float speed = 0.00003;
-  vec4 color = texture2D(colormap, fract(vTexCoord* 2.0 + uFrameCount * speed));
+  vec4 color = texture2D(colormap, fract(vTexCoord + uFrameCount * speed));
   float df = color.r*0.2126 + color.g*0.7152 + color.b*0.0722;
-  df=pow(df*0.6, 2.0)*2.0*(1.0+mod1*8.0);
+  df=pow(df*0.7, 2.0)*2.0*(1.0+mod1*4.0);
   vec4 positionVec4 = vec4(aPosition, 1.0);
   vec4 p = vec4(aPosition, 1.0);
   vec4 newVertexPos = positionVec4;
 
 
   if (mapId==0) {
-    if (p.y<0.0 && vTexCoord.x>0.001 && vTexCoord.x<0.999 )newVertexPos.y=newVertexPos.y-df+0.2;
-    else newVertexPos.y=newVertexPos.y+0.2;
+    if (p.y<0.0)newVertexPos.y=newVertexPos.y-df;
+    else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }else if (mapId==1) {
-    if (p.y<0.0 && vTexCoord.x>0.001 && vTexCoord.x<0.999 )newVertexPos.y=newVertexPos.y-df;
+    if (p.y<0.0)newVertexPos.y=newVertexPos.y-df;
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }
   else if (mapId==2) {
-    if (p.y<0.0 )newVertexPos.y=newVertexPos.y-(df*0.2);
+    if (p.y<0.0 && vTexCoord.x>0.2 && vTexCoord.x<0.999  )newVertexPos.y=newVertexPos.y-(df*0.2);
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }else if (mapId==3) {
@@ -51,8 +51,8 @@ void main(void) {
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }else if (mapId==4) {
-    if (p.y>0.095)newVertexPos.y=newVertexPos.y-df;
-    else if(p.y<-0.095) newVertexPos.y=newVertexPos.y+df;
+    if (p.y>0.095)newVertexPos.y=newVertexPos.y+df;
+    else if(p.y<-0.095) newVertexPos.y=newVertexPos.y-df;
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }else if (mapId==5) {

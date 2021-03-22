@@ -10,7 +10,7 @@ let frameCountPerCicle = 200;
 let CFrameCount,CQuartEaseInR,CQuartEaseOutR;
 let CProgressR,CQuadEaseInR,CQuadEaseOutR;
 let back,back2,dis=120,mapId,landId;
-let inconsolata;
+let inconsolata,mapNum=6;
 let displace,mosaic,sobel;
 let land=[],landImg=[];
 let jsonFile,img,pg,img2,objs,radHash;
@@ -117,8 +117,8 @@ const CustomStyle = ({
       } else if(timeLine==30){//loading .png file
         let seed = parseInt(hash.slice(0, 16), 16);
         shuffleBag.current = new MersenneTwister(seed);
-        mapId   = parseInt(shuffleBag.current.random()*5);
-        // mapId=5;
+        mapId   = parseInt(shuffleBag.current.random()*mapNum);
+
         landId  = parseInt(shuffleBag.current.random()*160);
 
         img =p5.loadImage("slitMap/"+landId+".png");
