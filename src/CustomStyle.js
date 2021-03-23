@@ -118,7 +118,6 @@ const CustomStyle = ({
         let seed = parseInt(hash.slice(0, 16), 16);
         shuffleBag.current = new MersenneTwister(seed);
         mapId   = parseInt(shuffleBag.current.random()*mapNum);
-
         landId  = parseInt(shuffleBag.current.random()*160);
 
         img =p5.loadImage("slitMap/"+landId+".png");
@@ -281,7 +280,7 @@ const CustomStyle = ({
         //-------------------------------------------drawHud
         {
           let cameraZoom=p5.easycam.getDistance();
-          let gridDist=p5.int(p5.map(cameraZoom,60,300,18,6));
+          let gridDist=p5.int(p5.map(cameraZoom,60,300,12,5));
           //-------------------------------------------
           p5.easycam.beginHUD();
           //-------------------------------------------

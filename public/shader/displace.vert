@@ -43,7 +43,7 @@ void main(void) {
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }
   else if (mapId==2) {
-    if (p.y<0.0 && vTexCoord.x>0.2 && vTexCoord.x<0.999  )newVertexPos.y=newVertexPos.y-(df*0.2);
+    if (p.y<0.0 && vTexCoord.x>0.2)newVertexPos.y=newVertexPos.y-(df*1.0);
     else newVertexPos.y=newVertexPos.y;
     gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos  ;
   }else if (mapId==3) {
@@ -60,7 +60,12 @@ void main(void) {
     vec4 newVertexPos = vec4(aNormal * df, 0.0) + positionVec4;
     vNormal = aNormal;
 
-    if ((p.y>-1.05 && p.y<1.05) ||((p.y<-1.5 || p.y>1.5)&& vTexCoord.x<0.8))  gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos;
-    else gl_Position = uProjectionMatrix * uModelViewMatrix * positionVec4   ;
+    if ((p.y>-1.05 && p.y<1.05) || (p.y<-1.5 || p.y>1.5)){
+      if(vTexCoord.x>0.01 && vTexCoord.x<0.78)  gl_Position = uProjectionMatrix * uModelViewMatrix * newVertexPos;
+      else gl_Position = uProjectionMatrix * uModelViewMatrix * positionVec4;
+      // }
+    }else {
+      gl_Position = uProjectionMatrix * uModelViewMatrix * positionVec4;
+    }
   }
 }
